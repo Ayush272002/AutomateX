@@ -2,6 +2,3 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npm run build && npm run format
-
-# Add any changes made by the build and format scripts
-git add .
