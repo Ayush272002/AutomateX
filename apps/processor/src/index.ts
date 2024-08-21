@@ -1,31 +1,10 @@
 import prisma from "@repo/db/client";
-import { Kafka, logLevel } from "kafkajs";
-import dotenv from "dotenv";
-
-dotenv.config();
+import kafkaClient from "@repo/kafka/client";
 
 const TOPIC_NAME = "zap-events";
 
-const kafkaUri = process.env.KAFKA_URI;
-if (!kafkaUri) {
-  throw new Error("KAFKA_URI environment variable is not defined");
-}
-
-const kafka = new Kafka({
-  brokers: [kafkaUri],
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  sasl: {
-    mechanism: "scram-sha-256",
-    username: process.env.KAFKA_USERNAME as string,
-    password: process.env.KAFKA_PASSWORD as string,
-  },
-  logLevel: logLevel.ERROR,
-});
-
 async function main() {
-  const producer = kafka.producer();
+  const producer = kafkaClient.producer();
   await producer.connect();
 
   while (1) {
