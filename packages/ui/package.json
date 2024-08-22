@@ -5,7 +5,13 @@
   "exports": {
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx"
+    "./code": "./src/code.tsx",
+    "./linkButton": "./src/LinkButton.tsx",
+    "./primaryButton" : "./src/PrimaryButton.tsx",
+    "./secondaryButton" : "./src/SecondaryButton.tsx",
+    "./feature" : "./src/Feature.tsx",
+    "./checkFeature" : "./src/CheckFeature.tsx",
+    "./input" : "./src/Input.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
