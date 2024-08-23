@@ -11,7 +11,9 @@
     "./secondaryButton" : "./src/SecondaryButton.tsx",
     "./feature" : "./src/Feature.tsx",
     "./checkFeature" : "./src/CheckFeature.tsx",
-    "./input" : "./src/Input.tsx"
+    "./input" : "./src/Input.tsx",
+    "./darkButton" : "./src/DarkButton.tsx",
+    "./spinner" : "./src/Spinner.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

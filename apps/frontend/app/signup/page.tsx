@@ -6,12 +6,57 @@ import Appbar from "../../components/Appbar";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { PrimaryButton } from "@repo/ui/primaryButton";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function () {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleOnClick = async () => {
+    if (!name || !email || !password || !confirmPassword) {
+      toast.error("Please fill all the fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      const payload = {
+        name,
+        username: email,
+        password,
+      };
+
+      console.log(API_BASE_URL);
+
+      const res = await axios.post(
+        `${API_BASE_URL}/api/v1/user/signup`,
+        payload,
+      );
+      localStorage.setItem("token", res.data.token);
+      router.push("/dashboard");
+    } catch (error: any) {
+      if (error.response) {
+        toast.error(
+          error.response.data.message || "Signup failed. Please try again.",
+        );
+      } else if (error.request) {
+        toast.error("No response received from server.");
+      } else {
+        toast.error("An error occurred during signup.");
+      }
+    }
+  };
+
   return (
     <div>
       <Appbar />
@@ -37,7 +82,7 @@ export default function () {
               }}
               type="text"
               placeholder="Your name"
-            ></Input>
+            />
             <Input
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -45,7 +90,7 @@ export default function () {
               label={"Email"}
               type="text"
               placeholder="Your Email"
-            ></Input>
+            />
             <Input
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -53,10 +98,18 @@ export default function () {
               label={"Password"}
               type="password"
               placeholder="Password"
-            ></Input>
+            />
+            <Input
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+              }}
+              label={"Confirm Password"}
+              type="password"
+              placeholder="Confirm Password"
+            />
 
             <div className="pt-4">
-              <PrimaryButton onClick={() => {}} size="big">
+              <PrimaryButton onClick={handleOnClick} size="big">
                 Get Started Free
               </PrimaryButton>
             </div>

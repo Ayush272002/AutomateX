@@ -30,7 +30,7 @@ const createUser = async (req: Request, res: Response) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(parsedData.data.password, salt);
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       name: parsedData.data.name,
       email: parsedData.data.username,
@@ -38,8 +38,22 @@ const createUser = async (req: Request, res: Response) => {
     },
   });
 
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    return res.status(500).json({
+      message: "Internal server error: JWT secret is not defined",
+    });
+  }
+  const token = jwt.sign(
+    {
+      id: user.id,
+    },
+    jwtSecret,
+    { expiresIn: "7d" },
+  );
+
   return res.json({
-    message: "Please verify your account by checking your email",
+    token,
   });
 };
 
