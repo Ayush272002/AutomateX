@@ -20,7 +20,7 @@ async function main() {
         value: message.value?.toString(),
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      // await new Promise((resolve) => setTimeout(resolve, 5000));
       console.log("Processing done");
       await consumer.commitOffsets([
         {
