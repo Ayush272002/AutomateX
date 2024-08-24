@@ -5,25 +5,75 @@ import { useState } from "react";
 import ZapCell from "../../../components/ZapCell";
 import { LinkButton } from "@repo/ui/linkButton";
 import { PrimaryButton } from "@repo/ui/primaryButton";
+import Modal from "../../../components/Modal";
+import { useAvailableActionsAndTriggers } from "../../../hooks/useAvailableActionsAndTriggers";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function () {
-  const [selectedTrigger, setSelectedTrigger] = useState("");
+  const router = useRouter();
+  const { availableActions, availableTriggers } =
+    useAvailableActionsAndTriggers();
+  const [selectedTrigger, setSelectedTrigger] = useState<{
+    id: string;
+    name: string;
+  }>();
   const [selectedActions, setSelectedActions] = useState<
     {
+      index: number;
       availableActionId: string;
       availableActionName: string;
+      metadata: any;
     }[]
   >([]);
+
+  const [selectedModalIndex, setSelectedModalIndex] = useState<null | number>(
+    null,
+  );
 
   return (
     <div>
       <Appbar />
+      <div className="flex justify-end bg-slate-200 p-4">
+        <PrimaryButton
+          onClick={async () => {
+            if (!selectedTrigger?.id) {
+              return;
+            }
+
+            const response = await axios.post(
+              `${API_BASE_URL}/api/v1/zap`,
+              {
+                availableTriggerId: selectedTrigger.id,
+                triggerMetadata: {},
+                actions: selectedActions.map((a) => ({
+                  availableActionId: a.availableActionId,
+                  actionMetadata: a.metadata,
+                })),
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              },
+            );
+
+            router.push("/dashboard");
+          }}
+        >
+          Publish
+        </PrimaryButton>
+      </div>
       <div className="w-full min-h-screen bg-slate-200 flex flex-col justify-center">
         <div className="flex justify-center w-full">
           <ZapCell
-            name={selectedTrigger ? selectedTrigger : "Trigger"}
+            name={selectedTrigger?.name ? selectedTrigger.name : "Trigger"}
             index={1}
-            onClick={() => {}}
+            onClick={() => {
+              setSelectedModalIndex(1);
+            }}
           />
         </div>
 
@@ -36,8 +86,10 @@ export default function () {
                     ? action.availableActionName
                     : "Action"
                 }
-                index={2 + index}
-                onClick={() => {}}
+                index={action.index}
+                onClick={() => {
+                  setSelectedModalIndex(action.index);
+                }}
               />
             </div>
           ))}
@@ -63,6 +115,40 @@ export default function () {
           </div>
         </div>
       </div>
+      {selectedModalIndex && (
+        <Modal
+          index={selectedModalIndex}
+          availableItems={
+            selectedModalIndex === 1 ? availableTriggers : availableActions
+          }
+          onSelect={(
+            props: null | { name: string; id: string; metadata: any },
+          ) => {
+            if (props === null) {
+              setSelectedModalIndex(null);
+              return;
+            }
+            if (selectedModalIndex === 1) {
+              setSelectedTrigger({
+                id: props.id,
+                name: props.name,
+              });
+            } else {
+              setSelectedActions((a) => {
+                let newActions = [...a];
+                newActions[selectedModalIndex - 2] = {
+                  index: selectedModalIndex,
+                  availableActionId: props.id,
+                  availableActionName: props.name,
+                  metadata: props.metadata,
+                };
+                return newActions;
+              });
+            }
+            setSelectedModalIndex(null);
+          }}
+        />
+      )}
     </div>
   );
 }

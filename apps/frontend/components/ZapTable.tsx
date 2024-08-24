@@ -2,6 +2,8 @@ import { useRouter } from "next/navigation";
 import Zap from "../interface/zap";
 import { LinkButton } from "@repo/ui/linkButton";
 
+const WEBHOOK_URL = process.env.NEXT_PUBLIC_WEBHOOK_URL;
+
 const ZapTable = ({ zaps }: { zaps: Zap[] }) => {
   const router = useRouter();
 
@@ -23,9 +25,8 @@ const ZapTable = ({ zaps }: { zaps: Zap[] }) => {
             ))}
           </div>
           <div className="flex-1">{z.id}</div>
-          {/* <div className="flex-1">Nov 13, 2023</div> */}
-          {/* backend hook */}
-          <div className="flex-1">{`$/hooks/catch/1/${z.id}`}</div>
+          {/* <div className="flex-1">CURR DATE</div> */}
+          <div className="flex-1">{`${WEBHOOK_URL}/hooks/catch/1/${z.id}`}</div>
           <div className="flex-1">
             <LinkButton
               onClick={() => {

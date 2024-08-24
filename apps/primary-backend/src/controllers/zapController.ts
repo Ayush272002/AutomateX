@@ -23,6 +23,7 @@ const createZap = async (req: Request, res: Response) => {
           create: parsedData.data.actions.map((x, index) => ({
             actionId: x.availableActionId,
             sortingOrder: index,
+            metadata: x.actionMetadata,
           })),
         },
       },
