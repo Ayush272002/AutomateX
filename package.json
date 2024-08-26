@@ -9,7 +9,7 @@
     "prepare": "husky",
     "db:generate" : "cd packages/db && npx prisma generate && cd ../..",
     "db:seed" : "cd packages/db && npx prisma db seed && cd ../..",
-    "start-frontend" : "cd ./apps/frontend && npm run dev",
+    "start-frontend" : "cd ./apps/frontend && npm run start",
     "start-hooks" : "cd ./apps/hooks && npm run dev",
     "start-backend" : "cd ./apps/primary-backend && npm run dev",
     "start-processor" : "cd ./apps/processor && npm run dev",
