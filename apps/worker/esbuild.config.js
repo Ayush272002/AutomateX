@@ -6,12 +6,12 @@ esbuild
     bundle: true,
     platform: "node",
     outdir: "dist",
-    external: [
-      "mock-aws-s3",
-      "aws-sdk",
-      "nock",
-      "@mapbox/node-pre-gyp",
-      "bcrypt",
-    ],
+    // external: [
+    //   "mock-aws-s3",
+    //   "aws-sdk",
+    //   "nock",
+    //   "@mapbox/node-pre-gyp",
+    //   "bcrypt",
+    // ],
   })
   .catch(() => process.exit(1));

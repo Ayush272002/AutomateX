@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { JsonObject } from "@prisma/client/runtime/library";
 
 const prismaClientSingleton = () => {
   return new PrismaClient();
@@ -14,3 +15,4 @@ const prisma: ReturnType<typeof prismaClientSingleton> =
 export default prisma;
 
 if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;
+export type { JsonObject };

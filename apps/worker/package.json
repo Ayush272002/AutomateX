@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npx esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
+    "build": "node esbuild.config.js",
     "start": "node dist/index.js",
     "dev": "npm run build && npm run start"
   },
@@ -14,6 +14,15 @@
   "dependencies": {
     "@repo/db": "*",
     "@repo/kafka": "*",
-    "esbuild": "^0.23.1"
+    "@solana/web3.js": "^1.95.3",
+    "bs58": "^6.0.0",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.23.1",
+    "esbuild-envfile-plugin": "^1.0.7",
+    "nodemailer": "^6.9.14"
+  },
+  "devDependencies": {
+    "@types/bs58": "^4.0.4",
+    "@types/nodemailer": "^6.4.15"
   }
 }
