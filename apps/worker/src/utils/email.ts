@@ -17,8 +17,8 @@ const transport = nodemailer.createTransport({
 
 export async function sendEmail(to: string, body: string) {
   await transport.sendMail({
-    from: "acharjyaayush41@gmail.com",
-    sender: "acharjyaayush41@gmail.com",
+    from: process.env.SMTP_SENDER as string,
+    sender: process.env.SMTP_SENDER as string,
     to,
     subject: "Hello from Zapier",
     text: body,
