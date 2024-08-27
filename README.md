@@ -1,81 +1,31 @@
-# Turborepo starter
+## Running primary-backend
 
-This is an official starter Turborepo.
+```shell
+docker pull ayush272002/zapier-primary-backend:latest
 
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
+docker run -e PORT=8001 -e JWT_SECRET="<jwt_secret>" -e DATABASE_URL="<db_url>" -d -p 8001:8001 ayush272002/zapier-primary-backend:latest
 ```
 
-## What's inside?
+## Running hooks
 
-This Turborepo includes the following packages/apps:
+```shell
+docker pull ayush272002/zapier-hooks:latest
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+ docker run -e PORT="8000" -e DATABASE_URL="<db_url>" -d -p 8000:8000 ayush272002/zapier-hooks:latest
 ```
 
-### Develop
+## Running processor
 
-To develop all apps and packages, run the following command:
+```shell
+ docker pull ayush272002/zapier-processor:latest
 
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+docker run -e DATABASE_URL="<db_url>" -e KAFKA_URI="<kafka_uri>" -e KAFKA_USERNAME="<username>" -e KAFKA_PASSWORD="<password>" -d -p 8002:8002 ayush272002/zapier-processor:latest
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## Running worker
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+```shell
+ docker pull ayush272002/zapier-worker:latest
 
+ docker run -e DATABASE_URL="<db_url>" -e KAFKA_URI="<kafka_uri>" -e KAFKA_USERNAME="<username>" -e KAFKA_PASSWORD="<password>" -e SOL_PRIVATE_KEY="<priv_key_of_your_wallet>" -e SMTP_HOST="<host>" -e SMTP_PORT="587" -e SMTP_USERNAME="<username>" -e SMTP_PASSWORD="<password>" -e SMTP_SENDER="<sender_email>" -e SOL_RPC_URL="<sol_rpc>" -d -p 8003:8003 ayush272002/zapier-worker:latest
 ```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
