@@ -1,3 +1,11 @@
+## Running the frontend
+
+```shell
+docker pull ayush272002/zaper-frontend:latest
+
+docker run -e NEXT_PUBLIC_API_BASE_URL="<backend_url>" -e NEXT_PUBLIC_WEBHOOK_URL="<webhook_url>" -p 3000:3000 ayush272002/zapier-frontend:latest
+```
+
 ## Running primary-backend
 
 ```shell
