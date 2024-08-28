@@ -1,15 +1,6 @@
 version: '3.8'
 
 services:
-  primary-backend:
-    build:
-      context: ..
-      dockerfile: ./docker/Dockerfile.primary-backend
-    ports:
-      - "8001:8001"
-    networks:
-      - monitoring
-
   prometheus:
     image: prom/prometheus:latest
     volumes:

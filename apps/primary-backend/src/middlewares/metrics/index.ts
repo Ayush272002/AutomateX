@@ -18,14 +18,14 @@ export const metricsMiddleware = (
     // Increment request counter
     requestCounter.inc({
       method: req.method,
-      route: req.route ? req.route.path : req.path,
+      route: req.originalUrl,
       status_code: res.statusCode,
     });
 
     httpRequestDurationMicroseconds.observe(
       {
         method: req.method,
-        route: req.route ? req.route.path : req.path,
+        route: req.originalUrl,
         code: res.statusCode,
       },
       duration,
