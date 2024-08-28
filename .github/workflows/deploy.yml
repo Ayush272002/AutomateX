@@ -49,7 +49,7 @@ jobs:
 
       - name: Build and push Prometheus image
         run: |
-          docker build -f docker/Dockerfile.prometheus --build-arg ZAPIER_BACKEND_URL=${{ secrets.ZAPIER_BACKEND_URL }} -t ayush272002/zapier-prometheus:latest .
+          docker build -f docker/Dockerfile.prometheus -t ayush272002/zapier-prometheus:latest .
           docker push ayush272002/zapier-prometheus:latest
 
       - name: Verify frontend image by pulling
