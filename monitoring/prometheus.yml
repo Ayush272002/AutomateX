@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'primary-backend'
+    static_configs:
+      - targets: ['primary-backend:8001']
