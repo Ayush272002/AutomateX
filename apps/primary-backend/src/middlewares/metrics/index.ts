@@ -15,17 +15,19 @@ export const metricsMiddleware = (
     const endTime = Date.now();
     const duration = endTime - startTime;
 
+    const fullPath = req.baseUrl + (req.route ? req.route.path : "");
+
     // Increment request counter
     requestCounter.inc({
       method: req.method,
-      route: req.originalUrl,
+      route: fullPath,
       status_code: res.statusCode,
     });
 
     httpRequestDurationMicroseconds.observe(
       {
         method: req.method,
-        route: req.originalUrl,
+        route: fullPath,
         code: res.statusCode,
       },
       duration,
