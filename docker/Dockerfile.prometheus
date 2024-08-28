@@ -1,0 +1,7 @@
+FROM prom/prometheus:v2.41.0
+
+COPY ../monitoring/prometheus.yml /etc/prometheus/prometheus.yml.template
+
+ENV ZAPIER_BACKEND_URL=''
+
+CMD ["sh", "-c", "envsubst < /etc/prometheus/prometheus.yml.template > /etc/prometheus/prometheus.yml && prometheus --config.file=/etc/prometheus/prometheus.yml"]
