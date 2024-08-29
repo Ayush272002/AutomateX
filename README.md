@@ -1,39 +1,73 @@
-## Running the frontend
+# AutomateX
 
-```shell
-docker pull ayush272002/zaper-frontend:latest
+AutomateX is a lightweight automation platform inspired by Zapier, enabling users to create simple automation workflows by defining triggers and actions. The core feature allows users to set up webhooks as triggers, which can then initiate actions such as sending Solana tokens or dispatching emails when a POST request is made to the webhook. Designed for flexibility and ease of deployment, AutomateX makes it easy to extend and customize actions to suit specific automation needs, leveraging the power of serverless functions and webhooks for seamless integrations.
 
-docker run -e NEXT_PUBLIC_API_BASE_URL="<backend_url>" -e NEXT_PUBLIC_WEBHOOK_URL="<webhook_url>" -p 3000:3000 ayush272002/zapier-frontend:latest
+## Tech Stack
+
+- Monorepo/Turborepo
+- Typescript
+- Next.Js
+- Express.Js
+- PostgreSQL
+- Prisma ORM
+- Kafka
+- Docker
+- CI/CD Pipeline
+- Solana RPC
+- SMTP
+- Prometheus
+- Grafana
+- Husky
+
+## Workflow
+
+A zap is a combination of trigger and actions, currently the application have a webhook as a trigger and the available actions are sending solana or sending the user email.
+The webhook trigger accepts data in the format like
+
+```json
+{
+  "comment": {
+    "email": "<email>",
+    "address" : "<receivers public key>",
+    "amount" : <amount of sol>
+  }
+}
 ```
 
-## Running primary-backend
+when creating the zap the user would be prompted to add a trigger and action when selcted email as an option they need to form in which the data will be extracted for eg :-
 
-```shell
-docker pull ayush272002/zapier-primary-backend:latest
+For email
+![email](images/email.png)
 
-docker run -e PORT=8001 -e JWT_SECRET="<jwt_secret>" -e DATABASE_URL="<db_url>" -d -p 8001:8001 ayush272002/zapier-primary-backend:latest
+For solana
+![solana](images/solana.png)
+
+Then it will create the appropriate zap and the webhook, which can be used as a webhook option in github and when you comment like this on github/ or any other platform where the webhook is integrated
+
+```json
+{
+  "comment": {
+    "email": "<email>",
+    "address" : "<receivers public key>",
+    "amount" : <amount of sol>
+  }
+}
 ```
 
-## Running hooks
+It will send a post request to the webhook server which will then push data to the ZapRun and ZapRunOutbox from there the processor will pick the data from the outbox and delete from the ZapRunOutbox Table and push the data to the kafka queue and the worker will process the data either by sending Solana using Solana RPC or sending email via SMTP
+
+Both worker and processor runs infinitely and does processing of the data
+
+I have also used Prometheus and Grafana for monitoring the express server
+
+Complete workflow
+
+![workflow](images/workflow.png)
+
+## Running the project locally
+
+There is a [docker-compose.yml](./docker-compose.yml) in each of the services fill in the environment variables after that in the project's root dir run
 
 ```shell
-docker pull ayush272002/zapier-hooks:latest
-
- docker run -e PORT="8000" -e DATABASE_URL="<db_url>" -d -p 8000:8000 ayush272002/zapier-hooks:latest
-```
-
-## Running processor
-
-```shell
- docker pull ayush272002/zapier-processor:latest
-
-docker run -e DATABASE_URL="<db_url>" -e KAFKA_URI="<kafka_uri>" -e KAFKA_USERNAME="<username>" -e KAFKA_PASSWORD="<password>" -d -p 8002:8002 ayush272002/zapier-processor:latest
-```
-
-## Running worker
-
-```shell
- docker pull ayush272002/zapier-worker:latest
-
- docker run -e DATABASE_URL="<db_url>" -e KAFKA_URI="<kafka_uri>" -e KAFKA_USERNAME="<username>" -e KAFKA_PASSWORD="<password>" -e SOL_PRIVATE_KEY="<priv_key_of_your_wallet>" -e SMTP_HOST="<host>" -e SMTP_PORT="587" -e SMTP_USERNAME="<username>" -e SMTP_PASSWORD="<password>" -e SMTP_SENDER="<sender_email>" -e SOL_RPC_URL="<sol_rpc>" -d -p 8003:8003 ayush272002/zapier-worker:latest
+docker-compose up
 ```

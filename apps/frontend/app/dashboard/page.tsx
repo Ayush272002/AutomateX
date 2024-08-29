@@ -1,12 +1,12 @@
 "use client";
 
 import { DarkButton } from "@repo/ui/darkButton";
-import Appbar from "../../components/Appbar";
 import { useZaps } from "../../hooks/useZaps";
 import { Spinner } from "@repo/ui/spinner";
 import ZapTable from "../../components/ZapTable";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import DashboardAppbar from "../../components/DashboardAppbar";
 
 export default function () {
   const { loading, zaps } = useZaps();
@@ -17,11 +17,11 @@ export default function () {
       router.push("/login");
       return;
     }
-  });
+  }, []);
 
   return (
     <div>
-      <Appbar />
+      <DashboardAppbar />
       <div className="flex justify-center pt-8">
         <div className="max-w-screen-lg w-full">
           <div className="flex justify-between pr-8">

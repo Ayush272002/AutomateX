@@ -1,14 +1,14 @@
 "use client";
 
-import Appbar from "../../../components/Appbar";
 import { useState } from "react";
 import ZapCell from "../../../components/ZapCell";
-import { LinkButton } from "@repo/ui/linkButton";
 import { PrimaryButton } from "@repo/ui/primaryButton";
 import Modal from "../../../components/Modal";
 import { useAvailableActionsAndTriggers } from "../../../hooks/useAvailableActionsAndTriggers";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import DashboardAppbar from "../../../components/DashboardAppbar";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -35,7 +35,7 @@ export default function () {
 
   return (
     <div>
-      <Appbar />
+      <DashboardAppbar />
       <div className="flex justify-end bg-slate-200 p-4">
         <PrimaryButton
           onClick={async () => {
@@ -60,7 +60,12 @@ export default function () {
               },
             );
 
-            router.push("/dashboard");
+            if (response.status === 200) {
+              router.push("/dashboard");
+              toast.success("Zap created successfully");
+            } else {
+              toast.error("Failed to create zap");
+            }
           }}
         >
           Publish

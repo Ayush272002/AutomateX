@@ -16,12 +16,16 @@ const ZapTable = ({ zaps }: { zaps: Zap[] }) => {
         <div className="flex-1">Webhook URL</div>
         <div className="flex-1 text-center">Go</div>
       </div>
-      {zaps.map((z) => (
-        <div className="flex border-b border-t py-4">
+      {zaps.map((z, index) => (
+        <div key={index} className="flex border-b border-t py-4">
           <div className="flex-1 flex">
             <img src={z.trigger.type.image} className="w-[30px] h-[30px]" />{" "}
             {z.actions.map((x) => (
-              <img src={x.type.image} className="w-[30px] h-[30px]" />
+              <img
+                key={x.id}
+                src={x.type.image}
+                className="w-[30px] h-[30px]"
+              />
             ))}
           </div>
           <div className="flex-1">{z.id}</div>

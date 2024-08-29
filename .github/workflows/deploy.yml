@@ -47,10 +47,10 @@ jobs:
           docker build -f docker/Dockerfile.worker -t ayush272002/zapier-worker:latest .
           docker push ayush272002/zapier-worker:latest
 
-      - name: Build and push Prometheus image
-        run: |
-          docker build -f docker/Dockerfile.prometheus -t ayush272002/zapier-prometheus:latest .
-          docker push ayush272002/zapier-prometheus:latest
+      # - name: Build and push Prometheus image
+      #   run: |
+      #     docker build -f docker/Dockerfile.prometheus -t ayush272002/zapier-prometheus:latest .
+      #     docker push ayush272002/zapier-prometheus:latest
 
       - name: Verify frontend image by pulling
         run: |
@@ -77,7 +77,7 @@ jobs:
           docker pull ayush272002/zapier-worker:latest
           docker images | grep ayush272002/zapier-worker
 
-      - name: Verify Prometheus image by pulling
-        run: |
-          docker pull ayush272002/zapier-prometheus:latest
-          docker images | grep ayush272002/zapier-prometheus
+      # - name: Verify Prometheus image by pulling
+      #   run: |
+      #     docker pull ayush272002/zapier-prometheus:latest
+      #     docker images | grep ayush272002/zapier-prometheus

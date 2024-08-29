@@ -4,4 +4,4 @@ global:
 scrape_configs:
   - job_name: 'primary-backend'
     static_configs:
-      - targets: ['zapier-primary-backend-latest.onrender.com']
+      - targets: ['primary-backend:8001']

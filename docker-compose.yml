@@ -1,0 +1,74 @@
+version: '3.8'
+
+services: 
+  frontend:
+    image: ayush272002/zapier-frontend:latest
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8001
+      - NEXT_PUBLIC_WEBHOOK_URL=http://localhost:8000
+    ports:
+      - "3000:3000"
+
+  primary-backend:
+    image: ayush272002/zapier-primary-backend:latest
+    environment:
+      - PORT=8001
+      - JWT_SECRET=
+      - DATABASE_URL=
+    ports:
+      - "8001:8001"
+    networks:
+      - monitoring
+
+  hooks:
+    image: ayush272002/zapier-hooks:latest
+    environment:
+      - PORT=8000
+      - DATABASE_URL=
+    ports:
+      - "8000:8000"
+
+  processor:
+    image: ayush272002/zapier-processor:latest
+    environment:
+      - DATABASE_URL=
+      - KAFKA_URI=
+      - KAFKA_USERNAME=
+      - KAFKA_PASSWORD=
+
+  worker: 
+    image: ayush272002/zapier-worker:latest
+    environment:
+      - SOL_PRIVATE_KEY=
+      - SMTP_HOST=
+      - SMTP_PORT=587
+      - SMTP_USERNAME=
+      - SMTP_PASSWORD=
+      - SMTP_SENDER=
+      - SOL_RPC_URL=
+      - DATABASE_URL=
+      - KAFKA_URI=
+      - KAFKA_USERNAME=
+      - KAFKA_PASSWORD=
+  
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    networks:
+      - monitoring
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
+networks:
+  monitoring:
+    
