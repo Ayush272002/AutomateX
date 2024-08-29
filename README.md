@@ -12,12 +12,12 @@ AutomateX is a lightweight automation platform inspired by Zapier, enabling user
 - Prisma ORM
 - Kafka
 - Docker
-- CI/CD Pipeline
+- CI/CD Pipeline to deploy images of sepcific apps to docker hub
 - Solana RPC
 - SMTP
 - Prometheus
 - Grafana
-- Husky
+- Husky for pre-commit hook
 
 ## Workflow
 
@@ -69,5 +69,16 @@ Complete workflow
 There is a [docker-compose.yml](./docker-compose.yml) in each of the services fill in the environment variables after that in the project's root dir run
 
 ```shell
+git clone https://github.com/Ayush272002/AutomateX.git
+cd AutomateX
 docker-compose up
 ```
+
+## Contributing
+Contributions are welcome! If you have suggestions for new features, bug fixes, or improvements, please fork the repository and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+If you have any questions or suggestions, please feel free to contact.
