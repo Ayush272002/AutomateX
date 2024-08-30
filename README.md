@@ -1,8 +1,8 @@
 # AutomateX
 
-AutomateX is a lightweight automation platform inspired by Zapier, enabling users to create simple automation workflows by defining triggers and actions. The core feature allows users to set up webhooks as triggers, which can then initiate actions such as sending Solana tokens or dispatching emails when a POST request is made to the webhook. Designed for flexibility and ease of deployment, AutomateX makes it easy to extend and customize actions to suit specific automation needs, leveraging the power of serverless functions and webhooks for seamless integrations.
+AutomateX is a lightweight automation platform inspired by Zapier, enabling users to create simple automation workflows by defining triggers and actions. The core feature allows users to set up webhooks as triggers, which can then initiate actions such as sending Solana or dispatching emails when a POST request is made to the webhook. Designed for flexibility and ease of deployment, AutomateX makes it easy to extend and customize actions to suit specific automation needs, leveraging the power of serverless functions and webhooks for seamless integrations.
 
-***Note :- Only the frontend, primary-backend and hooks is deployed so if you try to run the project it might not run cause the processor and worker isn't deployed as they run infinitely***
+**_Note :- Only the frontend, primary-backend and hooks is deployed so if you try to run the project it might not run cause the processor and worker isn't deployed as they run infinitely_**
 
 ## Tech Stack
 
@@ -77,10 +77,13 @@ docker-compose up
 ```
 
 ## Contributing
+
 Contributions are welcome! If you have suggestions for new features, bug fixes, or improvements, please fork the repository and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
+
 If you have any questions or suggestions, please feel free to contact.
